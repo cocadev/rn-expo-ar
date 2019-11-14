@@ -6,7 +6,7 @@ import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
 
-import Mask from './Mask'
+import Mask from './Glasses'
 
 const cameraStyle = { flex: 1 }
 const flexCenterStyle = { flex: 1, justifyContent: 'center', alignItems: 'center' }
