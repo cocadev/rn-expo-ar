@@ -18,6 +18,10 @@ export default class MainView extends React.Component {
            <Text>Glassess</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity style={styles.btn} onPress={()=>Actions.three()}>
+           <Text>Three</Text>
+        </TouchableOpacity>
+
       </View>
     )
   }

@@ -4,6 +4,7 @@ import { KeyboardAvoidingView, StyleSheet, Platform } from 'react-native';
 import Camera from './src/camera'
 import MainView from './src/main';
 import Glasses from './src/glassess'
+import Three from './src/three';
 
 export default function App() {
   return (
@@ -17,6 +18,8 @@ export default function App() {
             <Scene key="main" component={MainView} hideNavBar />
             <Scene key="camera" component={Camera} hideNavBar />
             <Scene key="glasses" component={Glasses} hideNavBar />
+            <Scene key="three" component={Three} hideNavBar />
+
           </Scene>
         </Router>
       
