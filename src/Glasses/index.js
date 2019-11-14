@@ -22,8 +22,8 @@ const Mask = ({
   return (
     <View style={{
       position: 'absolute',
-      left: leftEyePosition.x - glassesWidth * 0.35,
-      top: leftEyePosition.y - glassesHeight * 0.4
+      left: rightEyePosition.x - glassesWidth * 0.35,
+      top: rightEyePosition.y - glassesHeight * 0.4
     }}>
       <Image
         source={require('../../assets/glasses.png')}

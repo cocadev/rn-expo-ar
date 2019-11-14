@@ -1,8 +1,25 @@
 import React from 'react';
-import Camera from './src/index'
+import { Scene, Router } from 'react-native-router-flux';
+import { KeyboardAvoidingView, StyleSheet, Platform } from 'react-native';
+import Camera from './src/camera'
+import MainView from './src/main';
+import Glasses from './src/glassess'
 
 export default function App() {
   return (
-    <Camera />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : null}
+      style={{ flex: 1 }}
+    >
+      
+        <Router>
+          <Scene>
+            <Scene key="main" component={MainView} hideNavBar />
+            <Scene key="camera" component={Camera} hideNavBar />
+            <Scene key="glasses" component={Glasses} hideNavBar />
+          </Scene>
+        </Router>
+      
+    </KeyboardAvoidingView>
   );
 }
