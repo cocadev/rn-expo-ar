@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { View } from 'react-native';
+// Import Text component
+import { Text, View } from 'react-native';
 
-// Destructure face data given as argument
 const Mask = ({
   face: {
     bounds: {
@@ -10,11 +10,14 @@ const Mask = ({
       size: { width: faceWidth }
     },
     leftEyePosition,
+    noseBasePosition, // nose position
     rightEyePosition
   }
 }) => {
-  // Define the helpers for calculating the correct positions
   const eyeWidth = faceWidth / 4
+  const pupilWidth = eyeWidth / 5
+  // Define nose width
+  const noseWidth = eyeWidth;
 
   const translatedEyePositionX = eyePosition => eyePosition.x - eyeWidth / 2 - containerX
   const translatedEyePositionY = eyePosition => eyePosition.y - eyeWidth / 2 - containerY
@@ -28,7 +31,6 @@ const Mask = ({
     y: translatedEyePositionY(rightEyePosition)
   }
 
-  // Define the style for the eye component
   const eyeStyle = (eyePosition, eyeBorderWidth = eyeWidth / 10) => ({
     position: 'absolute',
     left: eyePosition.x,
@@ -41,12 +43,42 @@ const Mask = ({
     backgroundColor:'yellow'
   });
 
+  const adjustedPupilPosition = coord => coord + eyeWidth / 2 - pupilWidth / 2
+  const pupilStyle = (eyePosition) => ({
+    position: 'absolute',
+    left: adjustedPupilPosition(eyePosition.x),
+    top: adjustedPupilPosition(eyePosition.y),
+    borderRadius: pupilWidth,
+    width: pupilWidth,
+    height: pupilWidth,
+    backgroundColor:'black'
+  });
+
+  // Define style for nose component
+  // Set the nose angle according to face angle
+  const noseTransformAngle = (
+    angleRad = Math.atan(
+      (rightEyePosition.y - leftEyePosition.y) /
+      (rightEyePosition.x - leftEyePosition.x)
+    )
+  ) => angleRad * 180 / Math.PI
+    
+  const noseStyle = () => ({
+    fontSize: noseWidth,
+    position: 'absolute',
+    left: noseBasePosition.x - noseWidth / 2 - containerX,
+    top: noseBasePosition.y - noseWidth / 2 - containerY,
+    transform: [{ rotate: `${noseTransformAngle()}deg`}]
+  })
+  
   return (
     <View style={{ position: 'absolute', left: containerX, top: containerY }}>
-      { /* Add left eye */ }
       <View style = {{...eyeStyle(translatedLeftEyePosition)}} />
-      { /* Add right eye */ }
+      <View style = {{...pupilStyle(translatedLeftEyePosition)}} />
       <View style = {{...eyeStyle(translatedRightEyePosition)}} />
+      <View style = {{...pupilStyle(translatedRightEyePosition)}} />
+      {/* Add nose component */}
+      <Text style={{...noseStyle()}}>🐽</Text>
     </View>
   );
 };
