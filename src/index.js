@@ -6,6 +6,8 @@ import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
 
+import Mask from './Mask'
+
 const cameraStyle = { flex: 1 }
 const flexCenterStyle = { flex: 1, justifyContent: 'center', alignItems: 'center' }
 
@@ -14,11 +16,9 @@ class MainView extends React.Component {
     super(props)
     this.state = {
       hasCameraPermission: null,
-      faces: [] // initialize found faces with empty array
+      faces: []
     }
     this.onCameraPermission = this.onCameraPermission.bind(this)
-    // bind the callbacks
-    // to set the correct context
     this.onFacesDetected = this.onFacesDetected.bind(this)
     this.onFaceDetectionError = this.onFaceDetectionError.bind(this)
   }
@@ -33,21 +33,17 @@ class MainView extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' })
   }
 
-  // implement face detection callback function
   onFacesDetected({ faces }) {
-    // print the found face data to console
-    console.log(faces)
-    // store faces to component state
     this.setState({ faces })
   }
 
-  // implement face detection error function
   onFaceDetectionError(error) {
     console.log(error)
   }
 
   render() {
-    const { hasCameraPermission } = this.state;
+    // Read faces by destructuring state
+    const { faces, hasCameraPermission } = this.state;
 
     if (hasCameraPermission === null) {
       return <View />
@@ -63,12 +59,6 @@ class MainView extends React.Component {
 
     return (
       <View style={cameraStyle}>
-        {/*
-          Enable face detector in camera component
-          mode: fast or accurate,
-          detectLandmarks: whether to get the eyes, nose, mouth position
-          runClassifications: eyes open and smiling probability
-         */}
         <Camera
           style={cameraStyle}
           type={Camera.Constants.Type.front}
@@ -80,6 +70,10 @@ class MainView extends React.Component {
           onFacesDetected={this.onFacesDetected}
           onFacesDetectionError={this.onFacesDetectionError}
         />
+        {
+          // For each face draw the mask
+          faces.map(face => <Mask key={face.faceID} face={face} />)
+        }
       </View>
     )
   }
