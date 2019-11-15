@@ -1,12 +1,14 @@
 
 
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
 
 import Mask from './Glasses'
+import { Actions } from 'react-native-router-flux';
+import images from './config/images';
 
 const cameraStyle = { flex: 1 }
 const flexCenterStyle = { flex: 1, justifyContent: 'center', alignItems: 'center' }
@@ -74,9 +76,28 @@ class MainView extends React.Component {
           // For each face draw the mask
           faces.map(face => <Mask key={face.faceID} face={face} />)
         }
+        <View style={styles.bottomView}>
+          <TouchableOpacity onPress={()=>Actions.pop()}>
+              <Text style={{ marginLeft: 12, fontSize: 20}}>Back</Text>
+          </TouchableOpacity>
+          <Image source={images.glasses1} style={{ width: 120, height: 40, marginHorizontal: 12}}/>
+
+        </View>
       </View>
     )
   }
 }
 
 export default MainView
+
+const styles = StyleSheet.create({
+  bottomView: {
+    backgroundColor: '#f0f0f0',
+    borderWidth: 2,
+    borderColor: '#aaa',
+    height: 100,
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
+
+});
