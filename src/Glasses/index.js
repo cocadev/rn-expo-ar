@@ -9,7 +9,8 @@ const Mask = ({
     },
     leftEyePosition,
     rightEyePosition
-  }
+  },
+  maskImg
 }) => {
   const glassesWidth = faceWidth
   const glassesHeight = faceHeight / 3
@@ -26,7 +27,7 @@ const Mask = ({
       top: rightEyePosition.y - glassesHeight * 0.4
     }}>
       <Image
-        source={require('../../assets/glasses.png')}
+        source={maskImg}
         style={{
           width: glassesWidth,
           height: glassesHeight,

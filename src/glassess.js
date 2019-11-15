@@ -5,10 +5,10 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
+import { Actions } from 'react-native-router-flux';
 
 import Mask from './Glasses'
-import { Actions } from 'react-native-router-flux';
-import images from './config/images';
+import { images } from './config/images';
 
 const cameraStyle = { flex: 1 }
 const flexCenterStyle = { flex: 1, justifyContent: 'center', alignItems: 'center' }
@@ -18,7 +18,8 @@ class MainView extends React.Component {
     super(props)
     this.state = {
       hasCameraPermission: null,
-      faces: []
+      faces: [],
+      myImg: images.glasses1
     }
     this.onCameraPermission = this.onCameraPermission.bind(this)
     this.onFacesDetected = this.onFacesDetected.bind(this)
@@ -73,15 +74,21 @@ class MainView extends React.Component {
           onFacesDetectionError={this.onFacesDetectionError}
         />
         {
-          // For each face draw the mask
-          faces.map(face => <Mask key={face.faceID} face={face} />)
+          faces.map(face => <Mask key={face.faceID} face={face} maskImg={this.state.myImg}/>)
         }
         <View style={styles.bottomView}>
           <TouchableOpacity onPress={()=>Actions.pop()}>
               <Text style={{ marginLeft: 12, fontSize: 20}}>Back</Text>
           </TouchableOpacity>
-          <Image source={images.glasses1} style={{ width: 120, height: 40, marginHorizontal: 12}}/>
-
+          <TouchableOpacity onPress={()=>this.setState({ myImg: images.glasses1})}>
+            <Image source={images.glasses1} style={styles.maskImg}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>this.setState({ myImg: images.glasses2})}>
+            <Image source={images.glasses2} style={{ width: 120, height: 40, marginHorizontal: 12}}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>this.setState({ myImg: images.glasses3})}>
+            <Image source={images.glasses3} style={{ width: 120, height: 40, marginHorizontal: 12}}/>
+          </TouchableOpacity>
         </View>
       </View>
     )
@@ -99,5 +106,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row'
   },
+  maskImg: {
+    width: 120, 
+    height: 40, 
+    marginHorizontal: 12,
+    resizeMode: 'cover'
+  }
 
 });
